@@ -175,14 +175,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Groq](https://groq.com) for providing fast LLM inference
 - [Anthropic](https://anthropic.com) for inspiration from Claude's interface design
 
-## 📞 Support
-
-If you have any questions or run into issues:
-
-1. Check the [Issues](https://github.com/YOUR_USERNAME/chatbot-playground/issues) page
-2. Create a new issue if your problem isn't already reported
-3. Provide detailed information about your setup and the issue
-
 ---
 
 ⭐ If you found this project helpful, please consider giving it a star on GitHub!
