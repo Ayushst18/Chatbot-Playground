@@ -136,31 +136,20 @@ with st.sidebar:
         "Model",
         options=list(model_options.keys()),
         format_func=lambda x: model_options[x],
-        index=0
-    )
+        index=0    )
     st.session_state.model = selected_model
     
     st.markdown("---")
     
-    # Temperature setting
-    temperature = st.slider(
-        "Temperature",
-        min_value=0.0,
-        max_value=2.0,
-        value=0.7,
-        step=0.1,
-        help="Controls randomness. Lower values make responses more deterministic."
-    )
-    
-    # Max tokens
-    max_tokens = st.slider(
-        "Max Tokens",
-        min_value=1,
-        max_value=8192,
-        value=2048,
-        step=64,
-        help="Maximum number of tokens in the response."
-    )
+    # Chat History
+    if st.session_state.messages:
+        st.markdown("## 💬 Chat History")
+        message_count = len(st.session_state.messages)
+        st.metric("Messages", message_count)
+        
+        # Show word count for conversation
+        total_words = sum(len(msg["content"].split()) for msg in st.session_state.messages)
+        st.metric("Total Words", total_words)
     
     st.markdown("---")
     
@@ -188,13 +177,7 @@ with st.sidebar:
 st.markdown("<h1 class='main-header'>🤖 Chatbot Playground</h1>", unsafe_allow_html=True)
 
 # Display current model info
-col1, col2, col3 = st.columns([2, 1, 1])
-with col1:
-    st.info(f"**Current Model:** {model_options[st.session_state.model]}")
-with col2:
-    st.info(f"**Temperature:** {temperature}")
-with col3:
-    st.info(f"**Max Tokens:** {max_tokens}")
+st.info(f"**Current Model:** {model_options[st.session_state.model]}")
 
 # Chat history display
 chat_container = st.container()
@@ -301,15 +284,14 @@ if send_button and user_input.strip():
             for msg in st.session_state.messages:
                 api_messages.append({
                     "role": msg["role"],
-                    "content": msg["content"]
-                })
+                    "content": msg["content"]                })
             
             # Make API call
             chat_completion = client.chat.completions.create(
                 messages=api_messages,
                 model=st.session_state.model,
-                temperature=temperature,
-                max_tokens=max_tokens,
+                temperature=0.7,
+                max_tokens=2048,
             )
             
             # Get response
